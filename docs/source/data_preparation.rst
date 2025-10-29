@@ -17,7 +17,8 @@ Firstly, for good practice, create separate folders for each shape, as well as s
 
 In SlicerSalt, select the Shape Creation -> SPHARM-PDM Generator module.
 
-![Dropdown](../imgs/spdm.png)
+.. image:: ../_static/spdm.png
+   :alt: SPHARM-PDM Generator
 
 Next, configure the input/output paths and parameters as needed under `Group Project IO`. Select `Run ShapeAnalysisModule` to start the process.
 
