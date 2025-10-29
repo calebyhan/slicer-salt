@@ -23,7 +23,7 @@ Verification
 
 In SlicerSalt, select the Shape Creation -> SPHARM-PDM Generator module.
 
-.. image:: ../_static/spvdm_viewer.png
+.. image:: ../_static/spvdm.png
    :alt: Shape Population Viewer
 
 Next steps
