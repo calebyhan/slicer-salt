@@ -1,22 +1,19 @@
-Welcome to Lumache's documentation!
-===================================
+SlicerSalt documentation
+=========================
 
-**Lumache** (/lu'make/) is a Python library for cooks and food lovers
-that creates recipes mixing random ingredients.
-It pulls data from the `Open Food Facts database <https://world.openfoodfacts.org/>`_
-and offers a *simple* and *intuitive* API.
+Welcome to the SlicerSalt documentation. This documentation provides a quick
+start and examples for the main workflows: preparing data, creating shapes,
+and populating those shapes.
 
-Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
-
-.. note::
-
-   This project is under active development.
+Use the sections below to quickly navigate to the task you need.
 
 Contents
 --------
 
 .. toctree::
+   :maxdepth: 2
+   :caption: Quick start
 
-   usage
-   api
+   slicersalt_setup
+   data_preparation
+   shape_population
