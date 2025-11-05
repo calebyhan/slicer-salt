@@ -9,13 +9,17 @@ This page describes how to prepare and validate input data used by SlicerSalt.
 Instructions
 -----------------------
 
-Firstly, for good practice, create separate folders for each shape, as well as separate input/output directories.
+Firstly, organize your input and output directories. For this documentation the expected
+input is a folder named `Data/` containing per-subject labelmaps in `.nrrd` format. The
+extracted per-shape outputs will be placed under `ShapeData/<ShapeName>/` (for example
+`ShapeData/AmygdalaLeft`). Create the expected folders with a command like:
 
 .. code-block:: console
-   mkdir AmygdalaLeft AmygdalaRight CaudateLeft CaudateRight GPLeft GPRight HippocampusLeft HippocampusRight PutamenLeft PutamenRight ThalamusLeft ThalamusRight
-   for d in AmygdalaLeft AmygdalaRight CaudateLeft CaudateRight GPLeft GPRight HippocampusLeft HippocampusRight PutamenLeft PutamenRight ThalamusLeft ThalamusRight; do mkdir -p "$d"/{input/{model,volume,defunct},output}; done
 
-Extracting labels using NIRAL ImageMath (preferred)
+  mkdir -p Data
+  mkdir -p ShapeData/{AmygdalaLeft,AmygdalaRight,CaudateLeft,CaudateRight,GPLeft,GPRight,HippocampusLeft,HippocampusRight,PutamenLeft,PutamenRight,ThalamusLeft,ThalamusRight}
+
+Extracting labels using NIRAL ImageMath
 --------------------------------------------------
 
 Use the `ImageMath` utility from the NIRAL utilities package as the primary method. ImageMath supports operating directly on `.nrrd` files and provides an explicit label extraction operation. See the project pages for downloads and docs:
@@ -27,19 +31,30 @@ Match the integer label indices in `docs/_static/Subcorticals.label` with their 
 
 ``ImageMath input.nrrd -outfile output.nrrd -extractLabel <number>``
 
-Concrete inline example (ImageMath exact form):
+Concrete inline example (process a Data/ folder and write into ShapeData/ folders):
+
+This example loops over all `.nrrd` files in `Data/` and, for each file, extracts every
+label defined in `docs/_static/Subcorticals.label` into a per-shape folder under
+`ShapeData/`. Output files are named <inputbasename>_<ShapeName>.nrrd so you can track
+which subject they came from.
 
 .. code-block:: console
 
    LABELFILE=docs/_static/Subcorticals.label
-   INPUT=YourLabelMap.nrrd
-   OUTDIR=output_imagemath
-   mkdir -p "$OUTDIR"
+   INPUT_DIR=Data
+   OUT_ROOT=ShapeData
 
-   awk '/^[[:space:]]*[0-9]+/ {idx=$1; $1=""; sub(/^ +/, ""); label=substr($0, index($0, "\"")); gsub(/\"/,"",label); gsub(/[[:space:]]/,"_",label); print idx, label}' "$LABELFILE" \
-   | while read idx label; do
-     echo "Extracting label $idx -> $label"
-     ImageMath "$INPUT" -outfile "$OUTDIR/${label}.nrrd" -extractLabel "$idx"
+   for f in "$INPUT_DIR"/*.nrrd; do
+     [ -e "$f" ] || continue
+     base=$(basename "$f" .nrrd)
+     awk '/^[[:space:]]*[0-9]+/ {idx=$1; $1=""; sub(/^ +/, ""); label=substr($0, index($0, "\"")); gsub(/\"/,"",label); gsub(/[[:space:]]/,"_",label); print idx, label}' "$LABELFILE" \
+     | while read idx label; do
+       outdir="$OUT_ROOT/${label}"
+       mkdir -p "$outdir"
+       out="$outdir/${base}_${label}.nrrd"
+       echo "Extracting $f -> $out (label $idx)"
+       ImageMath "$f" -outfile "$out" -extractLabel "$idx"
+     done
    done
 
 Notes:

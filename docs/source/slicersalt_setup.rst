@@ -25,3 +25,6 @@ After installing, import the package and check the version:
 
    ./SlicerSALT-6.0.0-linux-amd64/SlicerSALT
 
+Next steps
+----------
+Proceed to the Data Preparation guide to prepare your input data for SlicerSalt.
