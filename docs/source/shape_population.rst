@@ -12,7 +12,7 @@ Instructions
 First we need to prepare the outputs from the `SPHARM-PDM Generator` module. Once you have the output files, you can use the Shape Population Viewer to visualize and validate the populated shapes.
 However, simply loading the files would take a while, so we can divide up the `*SPHARM.vtk` files into smaller chunks.
 
-First ensure that we are in the `Shape/output` directory. This script below will create three folders `SP1`, `SP2`, and `SP3`, and distribute the `*SPHARM.vtk` files evenly among them.
+First ensure that we are in the `Shape/output` directory. This script below will create three folders `SP1`, `SP2`, and `SP3`, and distribute the `*SPHARM.vtk` files into SymLinks and evenly among them.
 
 .. code-block:: console
 

@@ -20,13 +20,13 @@ Error Handling
 
 There can be a specific error that occurs during the SPHARM-PDM generation process. This is an example of the error:
 
-```
+`
 itk::BinaryMask3DEqualAreaParametricMeshSourceException (0x558e78680400)
 Location: "Unknown"
 File: /work/Stable/SSALT-0-build/SPHARM-PDM/Libraries/Shape/Algorithms/BinaryMask3DEqualAreaParametricMeshSource.txx
 Line: 183
 Description: Warning: Euler equation not satisfied. Euler Number : 12752 - 12756 = -4
-```
+`
 
 To resolve this issue, you can simply remove the problematic labelmap file from your input dataset and rerun the SPHARM-PDM Generator. This error typically indicates that the input shape has topological issues that prevent successful processing.
 The best practice is to move the problematic file to a separate folder for further inspection later.
