@@ -18,6 +18,10 @@ extracted per-shape outputs will be placed under `ShapeData/<ShapeName>/` (for e
 
   mkdir -p Data
   mkdir -p ShapeData/{AmygdalaLeft,AmygdalaRight,CaudateLeft,CaudateRight,GPLeft,GPRight,HippocampusLeft,HippocampusRight,PutamenLeft,PutamenRight,ThalamusLeft,ThalamusRight}
+  for s in AmygdalaLeft AmygdalaRight CaudateLeft CaudateRight GPLeft GPRight HippocampusLeft HippocampusRight PutamenLeft PutamenRight ThalamusLeft ThalamusRight; do
+    mkdir -p "ShapeData/$s/input/model" "ShapeData/$s/input/volume" "ShapeData/$s/output"
+  done
+
 
 Extracting labels using NIRAL ImageMath
 --------------------------------------------------
@@ -40,22 +44,32 @@ which subject they came from.
 
 .. code-block:: console
 
-   LABELFILE=docs/_static/Subcorticals.label
-   INPUT_DIR=Data
-   OUT_ROOT=ShapeData
+  LABELFILE=Subcorticals.label
+  INPUT_DIR=Data
+  ROOT=ShapeData
 
-   for f in "$INPUT_DIR"/*.nrrd; do
-     [ -e "$f" ] || continue
-     base=$(basename "$f" .nrrd)
-     awk '/^[[:space:]]*[0-9]+/ {idx=$1; $1=""; sub(/^ +/, ""); label=substr($0, index($0, "\"")); gsub(/\"/,"",label); gsub(/[[:space:]]/,"_",label); print idx, label}' "$LABELFILE" \
-     | while read idx label; do
-       outdir="$OUT_ROOT/${label}"
-       mkdir -p "$outdir"
-       out="$outdir/${base}_${label}.nrrd"
-       echo "Extracting $f -> $out (label $idx)"
-       ImageMath "$f" -outfile "$out" -extractLabel "$idx"
-     done
-   done
+  for f in "$INPUT_DIR"/*.nrrd; do
+    [ -e "$f" ] || continue
+    base=$(basename "$f" .nrrd)
+
+    # Parse label file → (idx, label)
+    awk '/^[[:space:]]*[0-9]+/ {
+        idx=$1; $1="";
+        sub(/^ +/, "");
+        lbl=substr($0, index($0, "\""));     # from first quote to end
+        gsub(/\"/, "", lbl);                 # drop quotes
+        gsub(/[[:space:]]/, "_", lbl);       # spaces → underscores (safe)
+        print idx, lbl
+    }' "$LABELFILE" | while read -r idx label; do
+
+      # Ensure per-shape dirs exist
+      mkdir -p "$ROOT/$label/input/model" "$ROOT/$label/input/volume" "$ROOT/$label/output"
+
+      out="$ROOT/$label/input/volume/${base}_${label}.nrrd"
+      echo "Extracting $f -> $out (label $idx)"
+      ImageMath "$f" -outfile "$out" -extractLabel "$idx"
+    done
+  done
 
 Notes:
 
