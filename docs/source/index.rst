@@ -16,4 +16,5 @@ Contents
 
    slicersalt_setup
    data_preparation
+   shape_creation
    shape_population
