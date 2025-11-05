@@ -1,10 +1,10 @@
-Data Preparation and Shape Creation
+Data Preparation
 ================
 
 Overview
 --------
 
-This page describes how to prepare and validate input data used by SlicerSalt.
+This page describes how to prepare input data used by SlicerSalt.
 
 Instructions
 -----------------------
