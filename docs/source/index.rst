@@ -1,4 +1,4 @@
-SlicerSalt documentation
+Subcortical SlicerSalt Analysis
 =========================
 
 Welcome to the SlicerSalt documentation. This documentation provides a quick
@@ -18,3 +18,11 @@ Contents
    data_preparation
    shape_creation
    shape_population
+
+Notes
+-----
+Along the way, we recommend taking note of failed .nrrd or .vtk files, as we may need these files for correction later. We recommend writing down in the format of:
+
+   [SubjectID] vXX: flip along (xyz)
+
+For our data of about 150 subjects, we had an average of 4-5 files per shape that needed corrections.

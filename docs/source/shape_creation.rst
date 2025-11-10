@@ -1,4 +1,4 @@
-Shape Creation
+Surface Model Creation
 ==============
 
 This page describes how to create shapes in SlicerSalt using the SPHARM-PDM
@@ -28,8 +28,8 @@ Line: 183
 Description: Warning: Euler equation not satisfied. Euler Number : 12752 - 12756 = -4
 `
 
-To resolve this issue, you can simply remove the problematic labelmap file from your input dataset and rerun the SPHARM-PDM Generator. This error typically indicates that the input shape has topological issues that prevent successful processing.
-The best practice is to move the problematic file to a separate folder for further inspection later.
+To resolve this issue, we removed the problematic labelmap file from your input dataset and rerun the SPHARM-PDM Generator. This error typically indicates that the input shape has topological issues that prevent successful processing.
+We moved the problematic file to a separate folder for further inspection later. In order to fix this issue manually, there needs manual adjustment of the subcortical segmentation.
 Then restart the SPHARM-PDM generation process.
 
 Next steps
